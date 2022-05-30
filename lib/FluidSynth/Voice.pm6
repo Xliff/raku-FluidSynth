@@ -17,7 +17,7 @@ class FluidSynth::Voice {
     $fluid-voice ?? self.bless( :$fluid-voice ) !! Nil;
   }
 
-  method add_mod (fluid_mod_t $mod, gint $mode) {
+  method add_mod (fluid_mod_t() $mod, Int() $mode) {
     my gint $m = $mode;
 
     fluid_voice_add_mod($!fv, $mod, $m);
