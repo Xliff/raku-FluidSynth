@@ -68,19 +68,19 @@ class FluidSynth::Voice {
   }
 
   method is_on {
-    fluid_voice_is_on($!fv);
+    so fluid_voice_is_on($!fv);
   }
 
   method is_playing {
-    fluid_voice_is_playing($!fv);
+    so fluid_voice_is_playing($!fv);
   }
 
   method is_sostenuto {
-    fluid_voice_is_sostenuto($!fv);
+    so fluid_voice_is_sostenuto($!fv);
   }
 
   method is_sustained {
-    fluid_voice_is_sustained($!fv);
+    so fluid_voice_is_sustained($!fv);
   }
 
   method optimize_sample {
