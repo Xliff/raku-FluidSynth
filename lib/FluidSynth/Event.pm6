@@ -19,6 +19,9 @@ class FluidSynth::Event {
     $fluid-event ?? self.bless( :$fluid-event ) !! Nil;
   }
 
+  method FluidSynth::Raw::Definitions::fluid_event_t
+  { $!fe }
+
   method all_notes_off (Int() $channel) {
     my gint $c = $channel;
 
