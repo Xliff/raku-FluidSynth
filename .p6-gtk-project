@@ -5,3 +5,4 @@ include-directory=/usr/include/fluidsynth
 backups=backup,bitbucket,google-backup,azure-backup,hut
 build_exclude=
 hfile-suffix=
+exec=fsexec
