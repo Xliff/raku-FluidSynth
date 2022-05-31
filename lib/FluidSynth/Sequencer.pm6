@@ -18,7 +18,7 @@ class FluidSynth::Sequencer {
   }
 
   method new_fluid_sequencer {
-    my $fluid-seq = new_fluid_sequencer($!fs);
+    my $fluid-seq = new_fluid_sequencer();
 
     $fluid-seq ?? self.bless( :$fluid-seq ) !! Nil
   }
@@ -39,6 +39,10 @@ class FluidSynth::Sequencer {
 
   method delete_fluid_sequencer {
     delete_fluid_sequencer($!fs);
+  }
+
+  method cleanup {
+    self.delete_fluid_sequencer;
   }
 
   method get_client_id (Int() $index) {
@@ -69,7 +73,7 @@ class FluidSynth::Sequencer {
     fluid_sequencer_process($!fs, $msec);
   }
 
-  method register_client (Str() $name, &callback, Pointer $data) {
+  method register_client (Str() $name, &callback, gpointer $data) {
     fluid_sequencer_register_client($!fs, $name, &callback, $data);
   }
 

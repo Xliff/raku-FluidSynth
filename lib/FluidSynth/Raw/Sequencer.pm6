@@ -48,7 +48,7 @@ sub fluid_sequencer_get_tick (fluid_sequencer_t $seq)
 { * }
 
 sub fluid_sequencer_get_time_scale (fluid_sequencer_t $seq)
-  returns double
+  returns gdouble
   is native(fluidsynth)
   is export
 { * }
