@@ -23,17 +23,39 @@ class FluidSynth::Settings {
   }
 
   method new_fluid_settings {
-    my $fluid-settings = new_fluid_settings($!fs);
+    my $fluid-settings = new_fluid_settings();
 
     $fluid-settings ?? self.bless( :$fluid-settings ) !! Nil;
   }
 
-  method copystr (Str $name, Str $str, gint $len) {
-    fluid_settings_copystr($!fs, $name, $str, $len);
+  multi method copystr (
+    Str()  $name,
+    Int() :$len      = 128,
+          :$encoding = 'utf8'
+  ) {
+    my $s = CArray[uint8].allocate($len);
+    samewith($name, $s, $len, :$encoding);
+  }
+  multi method copystr (
+    Str()          $name,
+    CArray[uint8]  $str,
+    Int()          $len,
+                  :$encoding = 'utf8',
+                  :$raw      = False
+  ) {
+    my gint $l = $len;
+
+    fluid_settings_copystr($!fs, $name, $str, $l);
+    return Nil unless $raw;
+    Buf.new($str).decode($encoding);
   }
 
   method delete_fluid_settings {
     delete_fluid_settings($!fs);
+  }
+
+  method cleanup {
+    self.delete_fluid_settings;
   }
 
   method dupstr (Str $name, CArray[Str] $str) {
@@ -44,54 +66,54 @@ class FluidSynth::Settings {
     samewith($data, &func);
   }
   multi method foreach (Pointer $data, &func) {
-    fluid_settings_foreach($!fs, $data, $func);
+    fluid_settings_foreach($!fs, $data, &func);
   }
 
   proto method foreach_option (|)
   { * }
 
-  method foreach_option (
+  multi method foreach_option (
     Str     $name,
             &func,
     Pointer $data  = Pointer
   ) {
     samewith($name, $data, &func);
   }
-  method foreach_option (
+  multi method foreach_option (
     Str     $name,
     Pointer $data,
             &func
   ) {
-    fluid_settings_foreach_option($!fs, $name, $data, $func);
+    fluid_settings_foreach_option($!fs, $name, $data, &func);
   }
 
   proto method get_hints (|)
   { * }
 
-  method get_hints (Str $name) {
+  multi method get_hints (Str $name) {
     samewith($name, $);
   }
-  method get_hints (Str $name, $val is rw) {
+  multi method get_hints (Str $name, $val is rw) {
     my gint $v = 0;
 
     my $rv = fluid_settings_get_hints($!fs, $name, $v);
     $val = $v;
-    $rv ?? $val !! Nil
+    $rv.not ?? $val !! Nil
   }
 
   method get_type (Str() $name) {
     fluid_settings_get_type($!fs, $name);
   }
 
-  method getint (Str $name) {
+  multi method getint (Str $name) {
     samewith($name, $);
   }
-  method getint (Str $name, $val is rw) {
+  multi method getint (Str $name, $val is rw) {
     my gint $v  = 0;
     my      $rv = fluid_settings_getint($!fs, $name, $v);
 
     $val = $v;
-    $rv ?? $val !! Nil
+    $rv.not ?? $val !! Nil
   }
 
   proto method getint_default (|)
@@ -105,52 +127,60 @@ class FluidSynth::Settings {
     my      $rv = fluid_settings_getint_default($!fs, $name, $v);
 
     $val = $v;
-    $rv ?? $val !! Nil
+    $rv.not ?? $val !! Nil
   }
 
   proto method getint_range (|)
   { * }
 
   multi method getint_range (Str() $name, :$range = True) {
-    samewith($str, $, $, :$range);
+    samewith($name, $, $, :$range);
   }
-  multi method getint_range (Str $name, $min is rw, $max is rw) {
+  multi method getint_range (
+    Str()  $name,
+           $min   is rw,
+           $max   is rw,
+          :$range         = True
+  ) {
     my gdouble ($mn, $mx) = 0e0 xx 2;
 
     my $rv = fluid_settings_getint_range($!fs, $name, $mn, $mx);
     ($min, $max) = ($mn, $mx);
-    $range ?? ($min..$max) !! ($min, $max);
+
+    $rv.not ?? ( $range ?? ($min..$max) !! ($min, $max) )
+            !! Nil
   }
 
-  method getnum (Str() $name) {
+  multi method getnum (Str() $name) {
     samewith($name, $);
   }
-  method getnum (Str() $name, $val is rw) {
+  multi method getnum (Str() $name, $val is rw) {
     my gint $v  = 0;
     my      $rv = fluid_settings_getnum($!fs, $name, $v);
 
     $val = $v;
-    $rv ?? $val !! Nil
+    $rv.not ?? $val !! Nil
   }
 
   proto method getnum_default (|)
+  { * }
 
   multi method getnum_default (Str() $name) {
     samewith($name, $);
   }
   multi method getnum_default (Str() $name, $val is rw) {
-    my gint $v  = 0e0;
+    my gint $v  = 0;
     my      $rv = fluid_settings_getnum_default($!fs, $name, $v);
 
     $val = $v;
-    $rv ?? $val !! Nil
+    $rv.not ?? $val !! Nil
   }
 
   proto method getnum_range (|)
   { * }
 
   multi method getnum_range (Str() $name, :$range = True) {
-    samewith($str, $, $, :$range);
+    samewith($name, $, $, :$range);
   }
   multi method getnum_range (
     Str()  $name,
@@ -162,7 +192,8 @@ class FluidSynth::Settings {
 
     my $rv = fluid_settings_getnum_range($!fs, $name, $mn, $mx);
     ($min, $max) = ($mn, $mx);
-    $range ?? ($min..$max) !! ($min, $max);
+    $rv.not ?? ( $range ?? ($min..$max) !! ($min, $max) )
+            !! Nil;
   }
 
   proto method getstr_default (|)
