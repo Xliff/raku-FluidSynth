@@ -3,6 +3,8 @@ use v6.c;
 use FluidSynth::Raw::Types;
 use FluidSynth::Raw::Voice;
 
+use FluidSynth::Raw::Traits;
+
 class FluidSynth::Voice {
   has fluid_voice_t $!fv;
 
@@ -83,8 +85,8 @@ class FluidSynth::Voice {
     so fluid_voice_is_sustained($!fv);
   }
 
-  method optimize_sample {
-    fluid_voice_optimize_sample($!fv);
+  method optimize_sample (fluid_sample_t() $sample) is static {
+    fluid_voice_optimize_sample($sample);
   }
 
   method update_param (Int() $gen) {

@@ -2,7 +2,7 @@ use v6.c
 
 use NativeCall;
 
-use GLib::Raw::Definitions;
+use FluidSynth::Raw::Definitions;
 use FluidSynth::Raw::Definitions;
 
 ### /usr/include/fluidsynth/voice.h
