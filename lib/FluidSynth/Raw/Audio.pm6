@@ -43,9 +43,17 @@ sub new_fluid_audio_driver (fluid_settings_t $settings, fluid_synth_t $synth)
 { * }
 
 sub new_fluid_audio_driver2 (
-  fluid_settings_t   $settings, 
-  fluid_audio_func_t $func,
-  Pointer            $data
+  fluid_settings_t $settings,
+                   &func (
+                     gpointer,
+                     gint,
+                     gint,
+                     CArray[CArray[gfloat]],
+                     gint,
+                     CArray[CArray[gfloat]]
+                     --> gint
+                   ),
+  Pointer          $data
 )
   returns fluid_audio_driver_t
   is native(fluidsynth)

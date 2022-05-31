@@ -1,27 +1,40 @@
 use v6.c;
 
+use NativeCall;
+
 use FluidSynth::Raw::Types;
 use FluidSynth::Raw::Audio;
 
 class FluidSynth::Audio {
 
+  method new (
+    fluid_settings_t() $settings,
+    fluid_synth_t()    $synth
+  ) {
+    self.new_fluid_audio_driver($settings, $synth);
+  }
+
   method new_fluid_audio_driver (
-    fluid_settings_t $settings,
-    fluid_synth_t    $synth
+    fluid_settings_t() $settings,
+    fluid_synth_t()    $synth
   ) {
     new_fluid_audio_driver($settings, $synth);
   }
 
   method new_fluid_audio_driver2 (
-    fluid_settings_t   $settings,
-    fluid_audio_func_t $func,
-    Pointer            $data
+    fluid_settings_t $settings,
+                     &func,
+    gpointer         $data
   ) {
-    new_fluid_audio_driver2($settings, $func, $data);
+    new_fluid_audio_driver2($settings, &func, $data);
   }
 
   method delete_fluid_audio_driver (fluid_audio_driver_t $driver) {
     delete_fluid_audio_driver($driver);
+  }
+
+  method cleanup {
+    self.delete_fluid_audio_driver
   }
 
   # === CW: Suspect these will find their way into other classes.
