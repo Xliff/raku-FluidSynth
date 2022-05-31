@@ -14,7 +14,7 @@ class FluidSynth::Event {
     $fluid-event ?? self.bless( :$fluid-event ) !! Nil;
   }
   multi method new_fluid_event {
-    my $fluid-event = new_fluid_event($!fe);
+    my $fluid-event = new_fluid_event();
 
     $fluid-event ?? self.bless( :$fluid-event ) !! Nil;
   }
@@ -113,7 +113,7 @@ class FluidSynth::Event {
   }
 
   method get_type {
-    fluid_event_get_type();
+    fluid_event_get_type($!fe);
   }
 
   method get_value {
@@ -223,7 +223,7 @@ class FluidSynth::Event {
     fluid_event_system_reset($!fe);
   }
 
-  method timer (Pointer $data) {
+  method timer (gpointer $data) {
     fluid_event_timer($!fe, $data);
   }
 

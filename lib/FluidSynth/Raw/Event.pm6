@@ -106,7 +106,7 @@ sub fluid_event_get_program (fluid_event_t $evt)
 { * }
 
 sub fluid_event_get_scale (fluid_event_t $evt)
-  returns double
+  returns gdouble
   is native(fluidsynth)
   is export
 { * }
