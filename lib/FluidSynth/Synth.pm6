@@ -5,6 +5,8 @@ use NativeCall;
 use FluidSynth::Raw::Types;
 use FluidSynth::Raw::Synth;
 
+use FluidSynth::Voice;
+
 class FluidSynth::Synth {
   has fluid_synth_t $!fs is implementor;
 
