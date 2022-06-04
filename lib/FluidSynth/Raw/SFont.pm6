@@ -93,7 +93,7 @@ sub fluid_sample_set_pitch (
 sub fluid_sample_set_sound_data (
   fluid_sample_t $sample,
   short          $data,
-  Str            $data24,
+  Pointer        $data24,
   gint           $nbframes,
   gint           $sample_rate,
   short          $copy_data
@@ -118,7 +118,7 @@ sub fluid_sfloader_set_callbacks (
   fluid_sfloader_t $loader,
                    &open  (Str --> gint),                            #= fluid_sfloader_callback_open_t
                    &read  (CArray[uint8], glong, Pointer --> gint),  #= fluid_sfloader_callback_read_t
-                   &seek, (Pointer, glong, gint --> gint),           #= fluid_sfloader_callback_seek_t
+                   &seek  (Pointer, glong, gint --> gint),           #= fluid_sfloader_callback_seek_t
                    &tell  (Pointer --> glong),                       #= fluid_sfloader_callback_tell_t
                    &close (Pointer)                                  #= fluid_sfloader_callback_close_t
 )
