@@ -130,3 +130,24 @@ sub fluid_sequencer_unregister_client (
   is native(fluidsynth)
   is export
 { * }
+
+
+### /usr/include/fluidsynth/seqbind.h
+
+sub fluid_sequencer_add_midi_event_to_buffer (
+  CArray[uint8]      $data,
+  fluid_midi_event_t $event
+)
+  returns gint
+  is native(fluidsynth)
+  is export
+{ * }
+
+sub fluid_sequencer_register_fluidsynth (
+  fluid_sequencer_t $seq,
+  fluid_synth_t     $synth
+)
+  returns fluid_seq_id_t
+  is native(fluidsynth)
+  is export
+{ * }
