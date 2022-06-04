@@ -13,6 +13,10 @@ class FluidSynth::Event {
   multi method new (fluid_event_t $fluid-event) {
     $fluid-event ?? self.bless( :$fluid-event ) !! Nil;
   }
+  multi method new {
+    self.new_fluid_event
+  }
+
   multi method new_fluid_event {
     my $fluid-event = new_fluid_event();
 
@@ -62,6 +66,10 @@ class FluidSynth::Event {
 
   method delete_fluid_event {
     delete_fluid_event($!fe);
+  }
+
+  method cleanup {
+    self.delete_fluid_event
   }
 
   method get_bank {
@@ -205,12 +213,16 @@ class FluidSynth::Event {
     fluid_event_scale($!fe, $n);
   }
 
-  method set_dest (fluid_seq_id_t $dest) {
-    fluid_event_set_dest($!fe, $dest);
+  method set_dest (Int() $dest) {
+    my fluid_seq_id_t $d = $dest;
+
+    fluid_event_set_dest($!fe, $d);
   }
 
-  method set_source (fluid_seq_id_t $src) {
-    fluid_event_set_source($!fe, $src);
+  method set_source (Int() $src) {
+    my fluid_seq_id_t $s = $src;
+
+    fluid_event_set_source($!fe, $s);
   }
 
   method sustain (Int() $channel, Int() $val) {
@@ -223,7 +235,7 @@ class FluidSynth::Event {
     fluid_event_system_reset($!fe);
   }
 
-  method timer (gpointer $data) {
+  method timer (gpointer $data = gpointer) {
     fluid_event_timer($!fe, $data);
   }
 
