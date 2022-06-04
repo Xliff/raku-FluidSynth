@@ -2,11 +2,14 @@ use v6.c;
 
 use FluidSynth::Raw::Types;
 use FluidSynth::Raw::Voice;
-
 use FluidSynth::Raw::Traits;
 
+use FluidSynth::Roles::Implementor:
+
 class FluidSynth::Voice {
-  has fluid_voice_t $!fv;
+  also does FluidSynth::Roles::Implementor;
+
+  has fluid_voice_t $!fv is implementor;
 
   submethod BUILD ( :$fluid-voice ) {
     $!fv = $fluid-voice;
