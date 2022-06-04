@@ -57,12 +57,12 @@ class FluidSynth::LADSPA {
     Str() $port_name,
     Num() $val
   ) {
-    my gfloat $v = $val
+    my gfloat $v = $val;
 
     fluid_ladspa_effect_set_control($!fl, $effect_name, $port_name, $v);
   }
 
-  method effect_set_mix (Str() $name, gint $mix, gfloat $gain) {
+  method effect_set_mix (Str() $name, Int() $mix, Num() $gain) {
     my gint   $m = $mix;
     my gfloat $g = $gain;
 
