@@ -1,11 +1,23 @@
 CompUnit::Util
+Fluid::Raw::Midi
+Fluid::Raw::Types
 FluidSynth::Audio
 FluidSynth::Event
+FluidSynth::LADSPA
+FluidSynth::Midi
+FluidSynth::Midi::Event
+FluidSynth::Mod
+FluidSynth::Player
 FluidSynth::Raw::Audio
 FluidSynth::Raw::Definitions
+FluidSynth::Raw::Definititions
 FluidSynth::Raw::Enums
 FluidSynth::Raw::Event
 FluidSynth::Raw::Exports
+FluidSynth::Raw::LADSPA
+FluidSynth::Raw::Midi
+FluidSynth::Raw::Mod
+FluidSynth::Raw::SFont
 FluidSynth::Raw::Sequencer
 FluidSynth::Raw::Settings
 FluidSynth::Raw::Subs
@@ -15,10 +27,12 @@ FluidSynth::Raw::Types
 FluidSynth::Raw::Voice
 FluidSynth::Roles::Implementor
 FluidSynth::Roles::Pointers
+FluidSynth::SFont
 FluidSynth::Sequencer
 FluidSynth::Settings
 FluidSynth::Synth
 FluidSynth::Voice
+Method::Also
 NativeCall
 NativeHelpers::Blob
 
